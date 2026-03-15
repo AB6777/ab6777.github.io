@@ -2,148 +2,193 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AB GAMES | Azimxon Baxtiyorov Rasmiy Portali</title>
-    
-    <!-- SEO: Google qidiruvida chiqish uchun -->
-    <meta name="description" content="AB GAMES - Azimxon Baxtiyorovning rasmiy o'yin portali. Cyber Snake 3D va eng yangi vaxshiy o'yinlar to'plami.">
-    <meta name="keywords" content="AB, AB GAMES, Azimxon Baxtiyorov, o'yinlar, Cyber Snake, o'zbekcha o'yinlar portali, o'yin yuklash">
-    <meta name="author" content="Azimxon Baxtiyorov">
-    <meta name="robots" content="index, follow">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AB GAMES | Azimxon Baxtiyorov Portali</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
-    
     <style>
-        :root { --red: #ff0000; --dark: #0a0a0a; --gray: #1a1a1a; --blue: #00f2ff; }
-        body { margin: 0; background: var(--dark); color: white; font-family: 'Roboto', sans-serif; overflow-x: hidden; }
-        a { text-decoration: none; color: inherit; }
+        :root { --red: #ff0000; --dark: #05050a; --gray: #111; --blue: #00f2ff; --neon: #39ff14; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--dark); color: white; font-family: 'Roboto', sans-serif; overflow-x: hidden; }
 
-        /* Tepa qism */
+        /* PORTAL DIZAYNI */
         header { background: #000; padding: 15px 0; border-bottom: 3px solid var(--red); }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        .header-flex { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Orbitron'; font-size: 28px; font-weight: 900; color: #fff; letter-spacing: 3px; }
+        .logo { font-family: 'Orbitron'; font-size: 26px; color: #fff; letter-spacing: 2px; text-decoration: none; }
         .logo span { color: var(--red); }
-
-        /* Qizil Menu */
-        nav { background: var(--red); padding: 10px 0; box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
-        .nav-links { display: flex; gap: 20px; font-weight: bold; text-transform: uppercase; font-size: 13px; }
-
-        /* Asosiy Layout */
+        nav { background: var(--red); padding: 10px 0; font-weight: bold; font-size: 13px; text-transform: uppercase; text-align: center; }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         .main-layout { display: grid; grid-template-columns: 1fr 300px; gap: 30px; margin-top: 30px; }
 
-        /* Katta Banner (Mafia uslubida) */
-        .featured-banner {
-            height: 400px; background: linear-gradient(to right, #000, transparent), url('https://img.freepik.com');
-            background-size: cover; border-radius: 8px; border: 1px solid #333; display: flex; align-items: center; padding: 40px;
+        /* Banner */
+        .banner {
+            height: 350px; background: linear-gradient(to right, #000, transparent), url('https://img.freepik.com');
+            background-size: cover; border-radius: 10px; border: 1px solid #333; display: flex; align-items: center; padding: 40px;
         }
-        .banner-text h1 { font-family: 'Orbitron'; font-size: 40px; margin: 0; text-shadow: 0 0 20px var(--red); }
-        .btn-play { background: var(--red); color: white; padding: 15px 30px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 20px; font-family: 'Orbitron'; transition: 0.3s; }
-        .btn-play:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--red); }
+        .btn-play { background: var(--red); color: white; padding: 15px 30px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-family: 'Orbitron'; transition: 0.3s; box-shadow: 0 0 15px var(--red); }
+        .btn-play:hover { transform: scale(1.05); }
 
-        /* O'yinlar Grid */
-        .section-title { border-left: 5px solid var(--red); padding-left: 15px; margin: 40px 0 20px; font-size: 22px; text-transform: uppercase; font-weight: 900; }
-        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
-        .game-card { background: var(--gray); border-radius: 5px; border: 1px solid #222; transition: 0.3s; position: relative; }
+        /* O'YIN OYNASI (MODAL) */
+        #game-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            z-index: 1000; flex-direction: column; align-items: center; justify-content: center;
+        }
+        #game-box { position: relative; border: 4px solid var(--red); box-shadow: 0 0 30px var(--red); background: #000; }
+        canvas { display: block; image-rendering: pixelated; }
+        .close-btn { position: absolute; top: -50px; right: 0; color: white; font-size: 30px; cursor: pointer; font-weight: bold; }
+        .game-stats { position: absolute; top: -35px; left: 0; color: var(--neon); font-weight: bold; font-family: 'Orbitron'; font-size: 14px; }
+
+        /* GRID VA SIDEBAR */
+        .section-title { border-left: 5px solid var(--red); padding-left: 15px; margin: 30px 0 20px; font-size: 22px; font-weight: 900; }
+        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
+        .game-card { background: var(--gray); border-radius: 8px; border: 1px solid #222; overflow: hidden; transition: 0.3s; text-align: center; padding-bottom: 10px; cursor: pointer; }
         .game-card:hover { border-color: var(--red); transform: translateY(-5px); }
-        .game-img { width: 100%; height: 260px; background: #333; object-fit: cover; border-bottom: 2px solid var(--red); }
-        .game-info { padding: 15px; text-align: center; }
-        .hot-badge { position: absolute; top: 10px; right: 10px; background: var(--red); font-size: 10px; padding: 3px 8px; font-weight: bold; border-radius: 3px; }
+        .game-card img { width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--red); }
+        
+        .sidebar { background: var(--gray); padding: 20px; border-radius: 10px; border: 1px solid #222; height: fit-content; }
+        .side-title { color: var(--red); font-weight: 900; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px; font-size: 14px; }
+        
+        .controls { display: grid; grid-template-columns: repeat(3, 55px); gap: 10px; margin-top: 20px; }
+        .key { width: 55px; height: 55px; background: rgba(0,242,255,0.1); border: 2px solid var(--blue); color: white; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 20px; cursor: pointer; }
 
-        /* Sidebar */
-        .sidebar-box { background: var(--gray); padding: 20px; border-radius: 5px; border: 1px solid #222; margin-bottom: 20px; }
-        .side-title { color: var(--red); font-weight: bold; border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 12px; font-size: 14px; }
-        .side-link { display: block; padding: 7px 0; color: #888; font-size: 13px; transition: 0.2s; }
-        .side-link:hover { color: var(--red); padding-left: 5px; }
-
-        footer { padding: 40px; text-align: center; color: #444; border-top: 1px solid #222; margin-top: 60px; font-size: 12px; }
-
-        @media (max-width: 850px) { .main-layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
+        footer { text-align: center; padding: 40px; color: #444; border-top: 1px solid #222; margin-top: 50px; font-size: 12px; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container header-flex">
-            <a href="/" class="logo">AB-<span>GAMES</span></a>
-            <div style="font-size: 11px; opacity: 0.5;">AZIMXON BAXTIYOROV PORTALI</div>
-        </div>
+        <div class="container"><a href="#" class="logo">AB-<span>GAMES</span></a></div>
     </header>
-
-    <nav>
-        <div class="container nav-links">
-            <a href="#">Bosh sahifa</a>
-            <a href="#">Yangi o'yinlar</a>
-            <a href="#">TOP 10</a>
-            <a href="#" style="color: gold;">VIP</a>
-        </div>
-    </nav>
+    <nav>BOSH SAHIFA | YANGI O'YINLAR | TOP 10 | VIP PORTAL</nav>
 
     <div class="container">
         <div class="main-layout">
-            
             <div class="content">
-                <!-- Banner -->
-                <div class="featured-banner">
-                    <div class="banner-text">
-                        <p style="color: var(--red); font-weight: bold; margin: 0;">YANGI LOYIHA!</p>
-                        <h1>CYBER SNAKE 3D</h1>
-                        <p style="color: #bbb; max-width: 400px; margin: 15px 0;">Haqiqiy 3D neon effektli va musiqali iloncha o'yini endi portalda dostupna!</p>
-                        <button class="btn-play" onclick="location.href='https://ab6777.github.io'">HOZIROQ O'YNASH</button>
+                <div class="banner">
+                    <div>
+                        <h1 style="font-family:'Orbitron'; font-size:35px;">CYBER SNAKE 3D</h1>
+                        <p style="color:#aaa; margin:15px 0;">Azimxon Baxtiyorovdan maxsus remake. <br>Haqiqiy neon effektlar va musiqali sarguzasht!</p>
+                        <button class="btn-play" onclick="openGame()">HOZIROQ O'YNASH</button>
                     </div>
                 </div>
 
-                <h2 class="section-title">Saytdagi yangi o'yinlar</h2>
+                <h2 class="section-title">Saytdagi o'yinlar</h2>
                 <div class="game-grid">
-                    
-                    <!-- Cyber Snake Card -->
-                    <a href="https://ab6777.github.io" class="game-card">
-                        <span class="hot-badge">HOT</span>
-                        <img src="https://img.freepik.com" class="game-img" alt="Cyber Snake">
-                        <div class="game-info">
-                            <h3 style="font-size: 14px; margin: 0;">Cyber Snake: AB Remake</h3>
-                            <div style="color: gold; font-size: 10px; margin-top: 5px;">★★★★★</div>
-                        </div>
-                    </a>
-
-                    <!-- Coming Soon 1 -->
-                    <div class="game-card" style="opacity: 0.4;">
-                        <div class="game-img" style="display:flex; align-items:center; justify-content:center; font-size:12px;">TEZ ORADA</div>
-                        <div class="game-info"><h3>Space Attack</h3><p style="font-size:10px;">Janr: Shuter</p></div>
+                    <div class="game-card" onclick="openGame()">
+                        <img src="https://img.freepik.com" alt="Snake">
+                        <h3 style="font-size:14px; margin-top:10px;">Cyber Snake Remake</h3>
+                        <div style="color:gold; font-size:10px;">★★★★★</div>
                     </div>
-
-                    <!-- Coming Soon 2 -->
-                    <div class="game-card" style="opacity: 0.4;">
-                        <div class="game-img" style="display:flex; align-items:center; justify-content:center; font-size:12px;">TEZ ORADA</div>
-                        <div class="game-info"><h3>Cyber Tetris</h3><p style="font-size:10px;">Janr: Puzzle</p></div>
+                    <div class="game-card" style="opacity:0.3;">
+                        <div style="height:220px; display:flex; align-items:center; justify-content:center;">SOON</div>
+                        <h3 style="font-size:14px;">Space Attack</h3>
                     </div>
-
                 </div>
             </div>
 
-            <!-- Sidebar -->
             <div class="sidebar">
-                <div class="sidebar-box">
-                    <div class="side-title">JANRLAR</div>
-                    <a href="#" class="side-link">Action / Ekshn</a>
-                    <a href="#" class="side-link">Arkada</a>
-                    <a href="#" class="side-link">Retro o'yinlar</a>
-                    <a href="#" class="side-link">Simulyatorlar</a>
-                </div>
-                <div class="sidebar-box">
-                    <div class="side-title">TOP O'YINCHILAR</div>
-                    <p style="font-size: 12px; color: #888;">1. Azimxon - 5000</p>
-                    <p style="font-size: 12px; color: #888;">2. Bekzod - 3200</p>
+                <div class="side-title">TOP O'YINCHILAR</div>
+                <p style="font-size:12px; color:#888; margin-bottom:5px;">1. Azimxon - 5000</p>
+                <p style="font-size:12px; color:#888;">2. Bekzod - 3200</p>
+                
+                <div class="side-title" style="margin-top:30px;">JANRLAR</div>
+                <div style="font-size:13px; color:#aaa; line-height:2;">
+                    • Ekshn <br> • Arkada <br> • Retro <br> • Shuter
                 </div>
             </div>
-
         </div>
     </div>
 
-    <footer>
-        <p>© 2026 AB-GAMES | Azimxon Baxtiyorov tomonidan yaratilgan.</p>
-        <p style="font-size: 10px; opacity: 0.5;">Ushbu sayt o'yin ishqibozlari uchun maxsus tayyorlandi.</p>
-    </footer>
+    <!-- O'YIN MODAL OYNASI -->
+    <div id="game-overlay">
+        <div id="game-box">
+            <span class="close-btn" onclick="closeGame()">×</span>
+            <div class="game-stats">OCHKO: <span id="sc">0</span></div>
+            <canvas id="c"></canvas>
+            
+            <!-- Mobil boshqaruv -->
+            <div class="controls">
+                <div></div><div class="key" onclick="move('up')">▲</div><div></div>
+                <div class="key" onclick="move('left')">◀</div><div class="key" onclick="move('down')">▼</div><div class="key" onclick="move('right')">▶</div>
+            </div>
+        </div>
+    </div>
 
+    <footer>© 2026 AB-GAMES | Azimxon Baxtiyorov Portali</footer>
+
+    <script>
+        const canvas = document.getElementById("c");
+        const ctx = canvas.getContext("2d");
+        const grid = 20;
+        canvas.width = 320; canvas.height = 320;
+
+        let snake, food, dx, dy, score, active = false;
+
+        function openGame() {
+            document.getElementById("game-overlay").style.display = "flex";
+            start();
+        }
+
+        function closeGame() {
+            document.getElementById("game-overlay").style.display = "none";
+            active = false;
+        }
+
+        function start() {
+            snake = [{x: 160, y: 160}, {x: 140, y: 160}];
+            food = {x: 80, y: 80};
+            dx = grid; dy = 0;
+            score = 0;
+            active = true;
+            loop();
+        }
+
+        function move(dir) {
+            if(dir=='up' && dy==0) {dx=0; dy=-grid}
+            if(dir=='down' && dy==0) {dx=0; dy=grid}
+            if(dir=='left' && dx==0) {dx=-grid; dy=0}
+            if(dir=='right' && dx==0) {dx=grid; dy=0}
+        }
+
+        function loop() {
+            if(!active) return;
+            setTimeout(() => {
+                const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+                if(head.x<0) head.x=300; if(head.x>300) head.x=0;
+                if(head.y<0) head.y=300; if(head.y>300) head.y=0;
+
+                if(snake.some(s => s.x==head.x && s.y==head.y)) {
+                    alert("O'YIN TUGADI! OCHKO: " + score);
+                    start();
+                    return;
+                }
+
+                snake.unshift(head);
+                if(head.x==food.x && head.y==food.y) {
+                    score += 10;
+                    document.getElementById("sc").innerText = score;
+                    food = { x: Math.floor(Math.random()*15)*20, y: Math.floor(Math.random()*15)*20 };
+                } else { snake.pop(); }
+
+                draw();
+                loop();
+            }, 100);
+        }
+
+        function draw() {
+            ctx.fillStyle = "black"; ctx.fillRect(0,0,320,320);
+            ctx.fillStyle = "#ff00ff"; ctx.shadowBlur = 15; ctx.shadowColor = "#ff00ff";
+            ctx.fillRect(food.x, food.y, 18, 18);
+            snake.forEach((s, i) => {
+                ctx.fillStyle = i==0 ? "#39ff14" : "#008000";
+                ctx.fillRect(s.x, s.y, 18, 18);
+            });
+            ctx.shadowBlur = 0;
+        }
+
+        window.onkeydown = (e) => {
+            if(e.key=="ArrowUp") move('up'); if(e.key=="ArrowDown") move('down');
+            if(e.key=="ArrowLeft") move('left'); if(e.key=="ArrowRight") move('right');
+        };
+    </script>
 </body>
 </html>
