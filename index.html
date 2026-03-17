@@ -8,7 +8,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AB GAMES | tekin o'yinlar</title>
+    <title>AB GAMES | retro o'yinlar </title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --red: #ff0000; --dark: #05050a; --gray: #111; --blue: #00f2ff; --neon: #39ff14; }
@@ -88,7 +88,7 @@
     <header>
         <div class="container"><a href="#" class="logo">AB-<span>GAMES</span></a></div>
     </header>
-    <nav>BOSH SAHIFA | YANGI O'YINLAR | TOP 10 | VIP PORTAL</nav>
+    <nav>BOSH SAHIFA | YANGI O'YINLAR | TOP 10 | VIP </nav>
 
     <div class="container">
         <div class="main-layout">
@@ -99,7 +99,7 @@
                     <div class="banner-content">
                         <p style="color: var(--red); font-weight: bold; letter-spacing: 3px;">HOT RELEASE</p>
                         <h1>CYBER SNAKE</h1>
-                        <p style="color:#aaa; margin:10px 0; max-width: 400px;">Azimxon Baxtiyorovdan daxshatli remake. <br>Haqiqiy "Jonli" o'yin tajribasi!</p>
+                        <p style="color:#aaa; margin:10px 0; max-width: 400px;"> Yoshligimizda o'ynagan (snake) o'yinini cyber yangi cyber versiyasi</snake> <br>Haqiqiy "Jonli" o'yin tajribasi!</p>
                         <button class="btn-play" onclick="openGame()">HOZIROQ O'YNASH</button>
                     </div>
                 </div>
@@ -108,11 +108,11 @@
                 <div class="game-grid">
                     <div class="game-card" onclick="openGame()">
                         <img src="https://img.freepik.com" alt="Snake">
-                        <h3 style="font-size:14px; margin-top:10px;">Cyber Snake Remake</h3>
+                        <h3 style="font-size:14px; margin-top:10px;">Cyber Snake</h3>
                         <div style="color:gold; font-size:10px;">★★★★★</div>
                     </div>
                     <div class="game-card" style="opacity:0.3;">
-                        <div style="height:220px; display:flex; align-items:center; justify-content:center;">SOON</div>
+                        <div style="height:220px; display:flex; align-items:center; justify-content:center;">YAQINDA!</div>
                         <h3 style="font-size:14px;">Space Attack</h3>
                     </div>
                 </div>
@@ -120,8 +120,8 @@
 
             <div class="sidebar">
                 <div class="side-title">TOP O'YINCHILAR</div>
-                <p style="font-size:12px; color:#888; margin-bottom:5px;">1. Azimxon - 5000</p>
-                <p style="font-size:12px; color:#888;">2. Bekzod - 3200</p>
+                <p style="font-size:12px; color:#888; margin-bottom:5px;">1. Azimxon - 503</p>
+                <p style="font-size:12px; color:#888;">2. Bekzod - 232</p>
                 
                 <div class="side-title" style="margin-top:30px;">JANRLAR</div>
                 <div style="font-size:13px; color:#aaa; line-height:2;">
@@ -145,7 +145,7 @@
         </div>
     </div>
 
-    <footer>© 2026 AB-GAMES | Azimxon Baxtiyorov Portali</footer>
+    <footer>© 2026 AB-GAMES | Azimxon Baxtiyorov </footer>
 
     <script>
         const canvas = document.getElementById("c");
@@ -196,7 +196,7 @@
 
                 snake.unshift(head);
                 if(head.x==food.x && head.y==food.y) {
-                    score += 10;
+                    score += 1;
                     document.getElementById("sc").innerText = score;
                     food = { x: Math.floor(Math.random()*15)*20, y: Math.floor(Math.random()*15)*20 };
                 } else { snake.pop(); }
